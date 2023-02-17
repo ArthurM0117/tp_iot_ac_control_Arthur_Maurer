@@ -280,6 +280,13 @@ with the following:
 
 Learn more with https://openupthecloud.com/terraform-lambda-scheduled-event/
 
+Now that you have an up and running lambda you will need to deploy the code contained in the ac_control_lambda directory,
+to do so you will need to run the two following commands:
+
+````shell
+./bin/package_lambda.sh
+./bin/deploy_lambda.sh
+````
 To test this part you have to run the **simulation.py** on your computer and wait until the temperature is rising above 35 °C and then you should
 see a message like this in the logs : "ZONE X : AC SWITCH TO True"
 

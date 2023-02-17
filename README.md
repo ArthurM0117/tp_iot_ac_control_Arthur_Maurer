@@ -103,7 +103,7 @@ the DB
 We'll need to declare some *AWS Iot Core resources*  :
 
 in the *dynamo.tf* file, an [**aws_dynamodb_table**](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table)
-named "Temperature" with a *hash_key* named "Id" an attribute named "Id" of type string ("S")
+named "Temperature" with a *hash_key* named "id" an attribute named "id" of type string ("S")
 
 in the *iot.tf* file, an [**aws_iot_topic_rule**](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iot_topic_rule) with
 the sql query "SELECT *  FROM 'sensor/temperature/+' where temperature >= 40" and a **dynamodbv2** action to link to the temperature table and linked to the "iot_role" role
@@ -317,6 +317,8 @@ For the **package** stage, create a package job that runs:
 script:
   - ./bin/package_lambda.sh
 ```
+the package stage will produce an artifact (the zip file) that needs to be passed to the other stages (deploy), to do so,
+you can inspire from the following: [**gitlab documentation**](https://docs.gitlab.com/ee/ci/pipelines/job_artifacts.html#create-job-artifacts)
 
 
 For the **deploy** stage, create a deploy job that runs:
@@ -338,3 +340,8 @@ to your GitLab repository to show me what you achieved
 You can set up a s3 remote tfstate following the [**documentation**](https://www.terraform.io/language/settings/backends/s3)
 
 after that you can adapt the *.gitlab-ci.yml* file to add the "terraform init" and "terraform apply" in the "deploy" stage of the CI/CD
+
+### Part 7: Destroy it all
+
+Now that tou have finished the practical, you must remove all the resources you've created, terraform destroy will destroy most of them
+but you also need to delete your quicksight account, make sure it is cleaned because quicksight is a pretty expensive service

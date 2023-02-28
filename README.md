@@ -24,7 +24,7 @@ curl https://www.amazontrust.com/repository/AmazonRootCA1.pem > files/root-CA.cr
 Then we have to install the python dependencies with:
 
 ```shell
-pip install -r requirements.txt
+pip install -r src/requirements.txt
 ```
 
 We also have to initialize terraform with the command (execute it in the *terraform* directory :
@@ -338,15 +338,9 @@ then you can push your code to git and make sure that the step are working
 
 ### Part 6: DataVisualisation with AWS QuickSight
 
-This final Part is Optional, so I will not give much information, you will have to connect to the AWS Console and 
-go to the QuickSight tab then use the following documentation, you can take screenshot of your dashboards and add them 
+This final Part is a Bonus Part, so I will not give much information, you will have to connect to the AWS Console and 
+go to the QuickSight tab then use the following [**documentation**](https://docs.aws.amazon.com/timestream/latest/developerguide/Quicksight.html), you can take screenshot of your dashboards and add them 
 to your GitLab repository to show me what you achieved
-
-### Part 7: To go further
-
-You can set up a s3 remote tfstate following the [**documentation**](https://www.terraform.io/language/settings/backends/s3)
-
-after that you can adapt the *.gitlab-ci.yml* file to add the "terraform init" and "terraform apply" in the "deploy" stage of the CI/CD
 
 ### Part 7: Destroy it all
 

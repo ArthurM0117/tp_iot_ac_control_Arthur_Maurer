@@ -336,11 +336,29 @@ script:
 
 then you can push your code to git and make sure that the step are working 
 
-### Part 6: DataVisualisation with AWS QuickSight
+### Part 6: DataVisualisation with Grafana Cloud
 
-This final Part is a Bonus Part, so I will not give much information, you will have to connect to the AWS Console and 
-go to the QuickSight tab then use the following [**documentation**](https://docs.aws.amazon.com/timestream/latest/developerguide/Quicksight.html), you can take screenshot of your dashboards and add them 
-to your GitLab repository to show me what you achieved
+The idea of this part is to use the time-based temperature data sent to Timestream and display them in graphs on a grafana dashboard to
+monitor the activity of our house.
+
+Grafana Cloud is a highly available, performant, and scalable observability platform for your applications and infrastructure.
+It provides a centralized view over all of your observability data, whether the data lives in Grafana Cloud Metrics services or in your own bare-metal and cloud environments 
+-- Grafana (https://grafana.com/docs/grafana-cloud/)
+
+First you will need to create a free account on: https://grafana.com/products/cloud/
+
+Then you can use the following resources to create a dashboard to monitor the sensors of your connected house:
+
+https://www.youtube.com/watch?v=pilkz645cs4
+https://docs.aws.amazon.com/timestream/latest/developerguide/Grafana.html
+
+Here is some example of what you can do:
+
+![img12.png](doc/img_12.png)
+![img14.png](doc/img_14.png)
+
+
+You will put the screen shots of your dashboard on the **doc/** directory
 
 ### Part 7: Destroy it all
 

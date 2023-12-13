@@ -163,7 +163,7 @@ in the *timestream.tf* file:
 with a database_name "iot"
 
 * a [**timestreamwrite_table**](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/timestreamwrite_table)
-linked to the previously created database and a table_name "temperaturesensor" with the 
+linked to the previously created database and a table_name "temperaturesensor" 
 
 
 in the *iot.tf* file, an [**aws_iot_topic_rule**](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iot_topic_rule) with

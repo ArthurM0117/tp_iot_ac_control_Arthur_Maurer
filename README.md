@@ -259,7 +259,7 @@ Then, we'll need to create some resource in the *lambda.tf* file:
 
 * a [**lambda_function**](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function)
 with the *filename* **"files/empty_package.zip"** which is an empty zip package, the *function_name* **"ac_control_lambda"**,
-the *handler* **"ac_control_lambda.lambda_handler"** and the *runtime* **"python3.8"**
+the *handler* **"ac_control_lambda.lambda_handler"**, the *runtime* **"python3.8"** and the *timeout* **30** seconds
 
 * an [**aws_cloudwatch_event_rule**](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule)
 with a *schedule_expression* **"rate(1 minute)"**

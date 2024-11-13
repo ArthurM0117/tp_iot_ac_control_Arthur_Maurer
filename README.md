@@ -325,7 +325,7 @@ script:
   - ./bin/package_lambda.sh
 ```
 the package stage will produce an artifact (the zip file) that needs to be passed to the other stages (deploy), to do so,
-you can inspire from the following: [**gitlab documentation**](https://docs.gitlab.com/ee/ci/pipelines/job_artifacts.html#create-job-artifacts)
+you can inspire from the following: [**gitlab documentation**](https://docs.gitlab.com/ee/ci/jobs/job_artifacts.html#create-job-artifacts)
 
 
 For the **deploy** stage, create a deploy job that runs:

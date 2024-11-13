@@ -362,5 +362,8 @@ You will put the screen shots of your dashboard on the **doc/** directory
 
 ### Part 7: Destroy it all
 
-Now that tou have finished the practical, you must remove all the resources you've created, terraform destroy will destroy most of them
-but you also need to delete your quicksight account, make sure it is cleaned because quicksight is a pretty expensive service
+Now that you have finished the practical, you must remove all the resources you've created with:
+
+```bash
+terraform destroy
+```

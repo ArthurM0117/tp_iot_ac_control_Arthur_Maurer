@@ -358,6 +358,13 @@ Here is some example of what you can do:
 ![img14.png](doc/img_14.png)
 
 
+example query:
+
+```sql
+select  cast(temperature as double) as temp, time from iot.temperaturesensor where sensor_id = '2'
+```
+
+
 You will put the screen shots of your dashboard on the **doc/** directory
 
 ### Part 7: Destroy it all

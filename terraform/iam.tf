@@ -1,83 +1,114 @@
 # aws_iam_role iot_role
+resource "aws_iam_role" "iot_role" {
+  name = "iot_role"
+  assume_role_policy = jsonencode({
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "iot.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+)
+}
 
 # aws_iam_role_policy iam_policy_for_dynamodb
-
+resource "aws_iam_role_policy" "test_policy" {
+  name = "test_policy"
+  role = aws_iam_role.iot_role.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = "dynamodb:PutItem"
+                  
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
 # aws_iam_role_policy iam_policy_for_timestream_writing
+resource "aws_iam_role_policy" "timestream_access" {
+  name = "timestream_access"
+  role = aws_iam_role.iot_role.id
 
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = "timestream:WriteRecords"
+        Effect   = "Allow"
+        Resource = aws_timestreamwrite_table.temperaturesensor.arn
+      },
+      {
+        Action   = "timestream:DescribeEndpoints"
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
 
 # aws_iam_role lambda_role
+resource "aws_iam_role" "lambda_role" {
+  name = "lambda_role"
+  assume_role_policy = jsonencode({
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
 
-# aws_iam_role_policy iam_policy_for_timestream_reading for Lambda
+)
+}
 
-# aws_iam_role_policy iam_policy_for_iot_publishing for Lambda
+# aws_iam_role_policy pour la permission de lire dans AWS Timestream
+resource "aws_iam_role_policy" "timestream_policy" {
+  name = "timestream_policy"
+  role = aws_iam_role.lambda_role.id
 
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = "timestream:Select"
+        Effect   = "Allow"
+        Resource = aws_timestreamwrite_table.temperaturesensor.arn
+      },
+      {
+        Action   = "timestream:DescribeEndpoints"
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
 
+# aws_iam_role_policy pour la permission de publier sur AWS IoT
+resource "aws_iam_role_policy" "iot_publish_policy" {
+  name = "iot_publish_policy"
+  role = aws_iam_role.lambda_role.id
 
-
-###########################################################################################
-# Enable the following resource to enable logging for IoT Core (helps debug)
-###########################################################################################
-
-#resource "aws_iam_role_policy" "iam_policy_for_logs" {
-#  name = "cloudwatch_policy"
-#  role = aws_iam_role.iot_role.id
-#
-#  policy = <<EOF
-#{
-#        "Version": "2012-10-17",
-#        "Statement": [
-#            {
-#                "Effect": "Allow",
-#                "Action": [
-#                    "logs:CreateLogGroup",
-#                    "logs:CreateLogStream",
-#                    "logs:PutLogEvents",
-#                    "logs:PutMetricFilter",
-#                    "logs:PutRetentionPolicy"
-#                 ],
-#                "Resource": [
-#                    "*"
-#                ]
-#            }
-#        ]
-#    }
-#EOF
-#}
-
-
-###########################################################################################
-# Enable the following resources to enable logging for your Lambda function (helps debug)
-###########################################################################################
-
-#resource "aws_cloudwatch_log_group" "example" {
-#  name              = "/aws/lambda/${aws_lambda_function.ac_control_lambda.function_name}"
-#  retention_in_days = 14
-#}
-#
-#resource "aws_iam_policy" "lambda_logging" {
-#  name        = "lambda_logging"
-#  path        = "/"
-#  description = "IAM policy for logging from a lambda"
-#
-#  policy = <<EOF
-#{
-#  "Version": "2012-10-17",
-#  "Statement": [
-#    {
-#      "Action": [
-#        "logs:CreateLogGroup",
-#        "logs:CreateLogStream",
-#        "logs:PutLogEvents"
-#      ],
-#      "Resource": "arn:aws:logs:*:*:*",
-#      "Effect": "Allow"
-#    }
-#  ]
-#}
-#EOF
-#}
-#
-#resource "aws_iam_role_policy_attachment" "lambda_logs" {
-#  role       = aws_iam_role.lambda_role.name
-#  policy_arn = aws_iam_policy.lambda_logging.arn
-#}
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = "iot:Publish"
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}

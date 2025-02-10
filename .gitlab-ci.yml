@@ -1,0 +1,29 @@
+image: "lambci/lambda:build-python3.7"
+
+before_script:
+  - pip install pytest
+
+stages:
+  - test
+  - package
+  - deploy
+
+pytest:
+  stage: test
+  script:
+    - pytest ac_control_lambda/tests -vv
+
+package_lambda:
+  stage: package
+  script:
+    - ./bin/package_lambda.sh
+  artifacts:
+    paths:
+      - ./files/artifact.zip
+
+deploy_lambda:
+  stage: deploy
+  script:
+    - ./bin/deploy_lambda.sh
+  dependencies:
+    - package_lambda

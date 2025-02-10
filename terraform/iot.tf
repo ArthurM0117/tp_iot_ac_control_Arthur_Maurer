@@ -1,25 +1,28 @@
-# aws_iot_certificate cert
+resource "aws_iot_certificate" "iot_certificate" {
+  active = true
+}
 
-# aws_iot_policy pub-sub
+resource "aws_iot_policy" "iot_policy" {
+  name   = "iot_policy"
+  policy = file("${path.module}/terraform/files/iot_policy.json")
+}
 
-# aws_iot_policy_attachment attachment
+resource "aws_iot_policy_attachment" "iot_policy_attachment" {
+  policy_name = aws_iot_policy.iot_policy.name
+  target      = aws_iot_certificate.iot_certificate.arn
+}
 
-# aws_iot_thing temp_sensor
+resource "aws_iot_thing" "iot_thing" {
+  name = "MyIoTThing"
+}
 
-# aws_iot_thing_principal_attachment thing_attachment
+resource "aws_iot_thing_principal_attachment" "thing_principal_attachment" {
+  thing_name = aws_iot_thing.iot_thing.name
+  principal  = aws_iot_certificate.iot_certificate.arn
+}
 
-# data aws_iot_endpoint to retrieve the endpoint to call in simulation.py
-
-# aws_iot_topic_rule rule for sending invalid data to DynamoDB
-
-# aws_iot_topic_rule rule for sending valid data to Timestream
+resource "aws_iot_endpoint" "iot_endpoint" {
+  endpoint_type = "iot:Data-ATS"
+}
 
 
-###########################################################################################
-# Enable the following resource to enable logging for IoT Core (helps debug)
-###########################################################################################
-
-#resource "aws_iot_logging_options" "logging_option" {
-#  default_log_level = "WARN"
-#  role_arn          = aws_iam_role.iot_role.arn
-#}
